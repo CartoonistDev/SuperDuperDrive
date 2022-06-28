@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Slf4j
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/home")
 public class HomeController {
 
@@ -27,11 +27,11 @@ public class HomeController {
     //@RequiredArgsConstructor creates the required constructor on the fly
 
 
-    public HomeController(NoteService noteService, UserService userService, FileUploadService fileUploadService) {
-        this.noteService = noteService;
-        this.userService = userService;
-        this.fileUploadService = fileUploadService;
-    }
+//    public HomeController(NoteService noteService, UserService userService, FileUploadService fileUploadService) {
+//        this.noteService = noteService;
+//        this.userService = userService;
+//        this.fileUploadService = fileUploadService;
+//    }
 
     @GetMapping
     public String homePage(Model model, Authentication authentication){

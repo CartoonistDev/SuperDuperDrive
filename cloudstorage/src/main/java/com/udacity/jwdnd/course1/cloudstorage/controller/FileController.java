@@ -4,6 +4,7 @@ import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileUploadService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,15 +17,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 //using thymeleaf to tell the browser where to look to getMapping
+@RequiredArgsConstructor
 @RequestMapping("/files")
 public class FileController {
-    private UserService userService;
-    private FileUploadService fileUploadService;
+    private final UserService userService;
+    private final FileUploadService fileUploadService;
 
-    public FileController(UserService userService, FileUploadService fileUploadService) {
-        this.userService = userService;
-        this.fileUploadService = fileUploadService;
-    }
+//    public FileController(UserService userService, FileUploadService fileUploadService) {
+//        this.userService = userService;
+//        this.fileUploadService = fileUploadService;
+//    }
 
     @PostMapping("/save")
     public String handleFileUpload(@RequestParam("fileUpload") MultipartFile multipartFile, Authentication authentication, File file, Model model) throws Exception {

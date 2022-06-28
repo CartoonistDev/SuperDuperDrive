@@ -9,9 +9,9 @@ public class Note {
 
     public Note(){}
 
-    public Note(String noteDescription, String noteTitle, Integer noteid, Integer userid) {
-        this.noteDescription = noteDescription;
+    public Note(String noteTitle, String noteDescription,  Integer noteid, Integer userid) {
         this.noteTitle = noteTitle;
+        this.noteDescription = noteDescription;
         this.noteId = noteid;
         this.userid = userid;
     }
