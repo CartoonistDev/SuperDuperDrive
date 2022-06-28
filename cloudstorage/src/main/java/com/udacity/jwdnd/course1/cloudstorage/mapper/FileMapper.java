@@ -20,7 +20,7 @@ public interface FileMapper {
     @Select("SELECT CASE WHEN EXIST (SELECT * FROM FILES WHERE filename = #{filename} AND userid = #{userid}) THEN TRUE ELSE FALSE END AS bool;")
     boolean existingFile(String fileName, Integer userId);
 
-    @Insert("INSERT INTO FILES(fileName, contentType, fileSize, userId, fileData) VALUES(#{filename}, #{contenttype}, #{filesize}, #{userid}, #{filedata});")
+    @Insert("INSERT INTO FILES(fileName, contentType, fileSize, userId, fileData) VALUES(#{fileName}, #{contentType}, #{fileSize}, #{userId}, #{fileData});")
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
     Integer addFile(File file);
 

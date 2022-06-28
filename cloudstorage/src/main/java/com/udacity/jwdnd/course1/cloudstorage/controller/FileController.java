@@ -27,12 +27,14 @@ public class FileController {
     }
 
     @PostMapping("/save")
-    public String handleFileUpload(@ModelAttribute("/fileUpload") MultipartFile multipartFile, Authentication authentication, File file, Model model) throws Exception {
+    public String handleFileUpload(@RequestParam("fileUpload") MultipartFile multipartFile, Authentication authentication, File file, Model model) throws Exception {
 
         //Set a user object
         User user = userService.getUser(authentication.getName());
         Integer userId = user.getUserid();
         file.setUserId(userId);
+
+        if (userService.isUsernameAvailable(user))
 
         model.addAttribute("uploadedFiles", fileUploadService.getAllFiles());
         model.addAttribute("isSuccessful", true);

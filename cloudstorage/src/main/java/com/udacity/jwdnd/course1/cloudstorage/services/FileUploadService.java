@@ -45,8 +45,8 @@ public class FileUploadService {
         return fileMapper.addFile(file);
     }
 
-//    public boolean duplicateFile(MultipartFile multipartFile, Integer userId){
-//        return fileMapper.existingFile(multipartFile.getOriginalFilename(), userId);
-//    }
+    public boolean duplicateFile(MultipartFile multipartFile, Integer userId){
+        return fileMapper.existingFile(multipartFile.getOriginalFilename(), userId);
+    }
 
 }
