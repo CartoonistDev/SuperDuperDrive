@@ -10,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -27,8 +24,13 @@ public class CredentialController {
     private final UserService userService;
     private final EncryptionService encryptionService;
 
+//    @GetMapping
+//    public String getCredentialList(Model model,@RequestParam("credential") Credential credential){
+//        model.addAttribute("SavedCredentials", credentialService.getAllCredentials(credential.getUserid()));
+//        return "home";
+//    }
     @PostMapping("/credential/add")
-    public String addAndUpdateCredentials(Authentication authentication, Model model, Credential credential){
+    public String addAndUpdateCredentials(Credential credential, Authentication authentication, Model model){
         SecureRandom random = new SecureRandom();
         byte[] key = new byte[16];
         random.nextBytes(key);
@@ -42,10 +44,11 @@ public class CredentialController {
 
         if (credential.getCredentialId() == null){
             try {
-                credentialService.createCredential(credential);
+                credentialService.createCredential(credential, userId);
                 log.info("I AM HERE 1");
                 model.addAttribute("isSuccessful", true);
                 model.addAttribute("successMessage", "Credential has been successfully added!");
+                return "home";
             } catch (Exception e){
                 model.addAttribute("hasError", true);
                 model.addAttribute("errorMessage", "Credential failed to add, please try again.");
@@ -56,6 +59,7 @@ public class CredentialController {
                 log.info("I AM HERE 2");
                 model.addAttribute("isSuccessful", true);
                 model.addAttribute("successMessage", "Credential has been successfully updated");
+                return "home";
             } catch (Exception e){
                 model.addAttribute("hasError", true);
                 model.addAttribute("errorMessage", "Credential failed to update.");

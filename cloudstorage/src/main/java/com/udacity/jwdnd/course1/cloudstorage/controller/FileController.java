@@ -23,11 +23,6 @@ public class FileController {
     private final UserService userService;
     private final FileUploadService fileUploadService;
 
-//    public FileController(UserService userService, FileUploadService fileUploadService) {
-//        this.userService = userService;
-//        this.fileUploadService = fileUploadService;
-//    }
-
     @PostMapping("/save")
     public String handleFileUpload(@RequestParam("fileUpload") MultipartFile multipartFile, Authentication authentication, File file, Model model) throws Exception {
 

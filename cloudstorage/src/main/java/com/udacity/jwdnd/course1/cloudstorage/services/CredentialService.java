@@ -13,28 +13,35 @@ public class CredentialService {
 
     private final CredentialMapper credentialMapper;
 
-//    public CredentialService(CredentialMapper credentialMapper) {
-//        this.credentialMapper = credentialMapper;
-//    }
+    public void createCredential(Credential credential, Integer userId){
+       Credential newCredential = new Credential();
 
+       newCredential.setUserid(userId);
+       newCredential.setUrl(credential.getUrl());
+       newCredential.setKey(credential.getKey());
+       newCredential.setPassword(credential.getPassword());
+       newCredential.setUsername(credential.getUsername());
 
-    public void createCredential(Credential credential){
-       Credential newCredential = new Credential(null, credential.getUsername(), credential.getUrl(), credential.getPassword(), credential.getKey(), credential.getUserid());
        credentialMapper.addCredentials(newCredential);
     }
 
 
     public void upDateCredential(Credential credential){
-        Credential newCredential = new Credential(credential.getCredentialId(), credential.getUsername(), credential.getUrl(), credential.getPassword(), credential.getKey(), credential.getUserid());
-        credentialMapper.updateCredential(newCredential);
+
+        credential.getUrl();
+        credential.getKey();
+        credential.getPassword();
+        credential.getUsername();
+
+        credentialMapper.updateCredential(credential);
     }
 
     public void deleteCredential(Integer credentialId){
         credentialMapper.deleteCredential(credentialId);
     }
 
-    public List<Credential> getAllCredentials(){
-        return credentialMapper.getAllCredentials();
+    public List<Credential> getAllCredentials(Integer userId){
+        return credentialMapper.getAllCredentials(userId);
     }
 
     public Credential getUserCredential(String key){

@@ -19,11 +19,6 @@ public class NoteController {
     private final UserService userService;
     private final NoteService noteService;
 
-//    public NoteController(UserService userService, NoteService noteService) {
-//        this.userService = userService;
-//        this.noteService = noteService;
-//    }
-
     @PostMapping("/note/add")
     public String createAndUpdateNote(Authentication authentication, Model model, Note note){
         //Authenticate userId
@@ -40,6 +35,7 @@ public class NoteController {
                 log.info("I AM HERE 2");
                 model.addAttribute("isSuccessful", true);
                 model.addAttribute("successMessage", "Note has been successfully created!");
+                return "home";
             } catch (Exception e){
                 model.addAttribute("hasError", true);
                 model.addAttribute("errorMessage", "Note failed to create!");
@@ -50,6 +46,7 @@ public class NoteController {
                 noteService.upDateNote(note, userId);
                 model.addAttribute("isSuccessful", true);
                 model.addAttribute("successMessage", "Note " + newNote.getNoteTitle() + " has been successfully updated!");
+                return "home";
             } catch (Exception e){
                 model.addAttribute("hasError", true);
                 model.addAttribute("errorMessage", "Note failed to update!");

@@ -1,10 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
-import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
-import com.udacity.jwdnd.course1.cloudstorage.services.FileUploadService;
-import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
-import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import com.udacity.jwdnd.course1.cloudstorage.services.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -24,14 +21,10 @@ public class HomeController {
     private final NoteService noteService;
     private final UserService userService;
     private final FileUploadService fileUploadService;
+    private final EncryptionService encryptionService;
+    private final CredentialService credentialService;
+
     //@RequiredArgsConstructor creates the required constructor on the fly
-
-
-//    public HomeController(NoteService noteService, UserService userService, FileUploadService fileUploadService) {
-//        this.noteService = noteService;
-//        this.userService = userService;
-//        this.fileUploadService = fileUploadService;
-//    }
 
     @GetMapping
     public String homePage(Model model, Authentication authentication){
@@ -40,8 +33,11 @@ public class HomeController {
         String user = authentication.getName();
         log.info("I AM HERE 2");
         Integer userId = userService.getUserId(user);
+        //Injecting all services so it will show in the home view
         model.addAttribute("userNotes", noteService.getUserNotes(userId));
         model.addAttribute("uploadedFiles", fileUploadService.getUserFiles(userId));
+        model.addAttribute("credentials", credentialService.getAllCredentials(userId));
+        model.addAttribute("encryptionService", encryptionService);
 //        User user = userService.getUser(authentication.getName());
 //        model.addAttribute("userNotes", noteService.getUserNotes(user.getUserid()));
         return "home";

@@ -23,5 +23,5 @@ public interface CredentialMapper {
     int updateCredential(Credential credential);
 
     @Select("SELECT * FROM CREDENTIALS ")
-    List<Credential> getAllCredentials();
+    List<Credential> getAllCredentials(Integer userId);
 }
