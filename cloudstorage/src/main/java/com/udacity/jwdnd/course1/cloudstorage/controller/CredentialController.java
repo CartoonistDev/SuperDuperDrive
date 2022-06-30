@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.SecureRandom;
+import java.util.Base64;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,38 +29,36 @@ public class CredentialController {
 
     @PostMapping("/credential/add")
     public String addAndUpdateCredentials(Authentication authentication, Model model, Credential credential){
-        //Encrypting the password
         SecureRandom random = new SecureRandom();
-        User user = userService.getUser(authentication.getName());
-        Integer userId = user.getUserid();
-        String credentialId = credential.getKey();
-        Credential newCredential = credentialService.getUserCredential(credentialId);
         byte[] key = new byte[16];
         random.nextBytes(key);
+        User user = userService.getUser(authentication.getName());
+        Integer userId = user.getUserid();
+        credential.setUserid(userId);
+        String encodeKey = Base64.getEncoder().encodeToString(key);
+        credential.setKey(encodeKey);
+        credential.setPassword(encryptionService.encryptValue(credential.getPassword(), credential.getKey()));
 
-        if (newCredential == null){
+
+        if (credential.getCredentialId() == null){
             try {
-                credential.setKey(random.toString());
-                credential.setPassword(encryptionService.encryptValue(credential.getPassword(), credentialId));
                 credentialService.createCredential(credential);
                 log.info("I AM HERE 1");
                 model.addAttribute("isSuccessful", true);
-                model.addAttribute("successMessage", "Credential has been successfully created!");
+                model.addAttribute("successMessage", "Credential has been successfully added!");
             } catch (Exception e){
                 model.addAttribute("hasError", true);
-                model.addAttribute("errorMessage", "Credential failed to create!");
+                model.addAttribute("errorMessage", "Credential failed to add, please try again.");
                 }
         } else {
             try {
-                credential.setKey(random.toString());
-                credential.setPassword(encryptionService.encryptValue(credential.getPassword(), credentialId));
                 credentialService.upDateCredential(credential);
                 log.info("I AM HERE 2");
                 model.addAttribute("isSuccessful", true);
                 model.addAttribute("successMessage", "Credential has been successfully updated");
             } catch (Exception e){
                 model.addAttribute("hasError", true);
-                model.addAttribute("errorMessage", "Credential failed to update!");
+                model.addAttribute("errorMessage", "Credential failed to update.");
             }
         }
 
