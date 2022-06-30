@@ -35,7 +35,6 @@ public class NoteController {
                 log.info("I AM HERE 2");
                 model.addAttribute("isSuccessful", true);
                 model.addAttribute("successMessage", "Note has been successfully created!");
-                return "home";
             } catch (Exception e){
                 model.addAttribute("hasError", true);
                 model.addAttribute("errorMessage", "Note failed to create!");
@@ -46,7 +45,6 @@ public class NoteController {
                 noteService.upDateNote(note, userId);
                 model.addAttribute("isSuccessful", true);
                 model.addAttribute("successMessage", "Note " + newNote.getNoteTitle() + " has been successfully updated!");
-                return "home";
             } catch (Exception e){
                 model.addAttribute("hasError", true);
                 model.addAttribute("errorMessage", "Note failed to update!");

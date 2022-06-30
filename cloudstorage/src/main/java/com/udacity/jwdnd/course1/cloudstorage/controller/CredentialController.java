@@ -48,7 +48,6 @@ public class CredentialController {
                 log.info("I AM HERE 1");
                 model.addAttribute("isSuccessful", true);
                 model.addAttribute("successMessage", "Credential has been successfully added!");
-                return "home";
             } catch (Exception e){
                 model.addAttribute("hasError", true);
                 model.addAttribute("errorMessage", "Credential failed to add, please try again.");
@@ -59,7 +58,6 @@ public class CredentialController {
                 log.info("I AM HERE 2");
                 model.addAttribute("isSuccessful", true);
                 model.addAttribute("successMessage", "Credential has been successfully updated");
-                return "home";
             } catch (Exception e){
                 model.addAttribute("hasError", true);
                 model.addAttribute("errorMessage", "Credential failed to update.");
