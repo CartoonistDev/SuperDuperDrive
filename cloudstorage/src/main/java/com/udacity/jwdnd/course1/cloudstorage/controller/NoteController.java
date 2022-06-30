@@ -42,7 +42,7 @@ public class NoteController {
         } else {
             try {
                 log.info("I AM HERE 3");
-                noteService.upDateNote(note, userId);
+                noteService.upDateNote(note);
                 model.addAttribute("isSuccessful", true);
                 model.addAttribute("successMessage", "Note " + newNote.getNoteTitle() + " has been successfully updated!");
             } catch (Exception e){

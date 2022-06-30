@@ -10,14 +10,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class NoteService {
-    private NoteMapper noteMapper;
+    private final NoteMapper noteMapper;
 
     public void createNote(Note note, Integer userId){
         Note newNote = new Note(null, note.getNoteDescription(), note.getNoteId(), userId);
         noteMapper.addNote(newNote);
     }
 
-    public void upDateNote(Note note, Integer userId){
+    public void upDateNote(Note note){
         Note newNote = new Note(note.getNoteDescription(), note.getNoteTitle(), note.getNoteId(), note.getUserid());
         noteMapper.updateNote(newNote);
     }
