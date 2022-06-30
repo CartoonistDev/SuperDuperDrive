@@ -47,7 +47,6 @@ public class NoteController {
         } else {
             try {
                 log.info("I AM HERE 3");
-
                 noteService.upDateNote(note, userId);
                 model.addAttribute("isSuccessful", true);
                 model.addAttribute("successMessage", "Note " + newNote.getNoteTitle() + " has been successfully updated!");
@@ -61,7 +60,7 @@ public class NoteController {
     }
 
     @GetMapping("/note/{noteId}/delete")
-    public String deleteFile(@PathVariable Integer noteId, Model model) throws Exception {
+    public String deleteNote(@PathVariable Integer noteId, Model model) throws Exception {
         try {
             noteService.deleteNote(noteId);
             model.addAttribute("isSuccessful", true);

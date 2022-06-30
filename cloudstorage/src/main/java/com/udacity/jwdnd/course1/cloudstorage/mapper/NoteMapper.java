@@ -10,7 +10,7 @@ public interface NoteMapper {
     Note findById(Integer noteid);
 
     @Insert("INSERT INTO NOTES (noteTitle, noteDescription, userid) VALUES (#{noteTitle}, #{noteDescription}, #{userid})")
-    @Options(useGeneratedKeys = true, keyProperty = "noteid")
+    @Options(useGeneratedKeys = true, keyProperty = "noteId")
     int addNote(Note note);
 
     @Delete("DELETE FROM NOTES WHERE noteId = #{noteId}")

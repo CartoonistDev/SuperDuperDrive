@@ -10,11 +10,11 @@ public class Credential {
 
     public Credential(){}
 
-    public Credential(String username, String url, String password, Integer credentialId, String key, Integer userid) {
+    public Credential(Integer credentialId, String username, String url, String password, String key, Integer userid) {
+        this.credentialId = credentialId;
         this.username = username;
         this.url = url;
         this.password = password;
-        this.credentialId = credentialId;
         this.key = key;
         this.userid = userid;
     }

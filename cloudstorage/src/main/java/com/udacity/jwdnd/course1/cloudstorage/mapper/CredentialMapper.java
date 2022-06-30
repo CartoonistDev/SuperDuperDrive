@@ -13,13 +13,13 @@ public interface CredentialMapper {
     Credential getCredential(String key);
 
     @Insert("INSERT INTO CREDENTIALS (url, username, key, password, userid) VALUES(#{url}, #{username}, #{key}, #{password}, #{userid})")
-    @Options(useGeneratedKeys = true, keyProperty = "credentialid")
+    @Options(useGeneratedKeys = true, keyProperty = "credentialId")
     int addCredentials(Credential credential);
 
-    @Delete("DELETE FROM CREDENTIALS WHERE credentialid = #{credentialid}")
+    @Delete("DELETE FROM CREDENTIALS WHERE credentialId = #{credentialId}")
     void deleteCredential(Integer credentialId);
 
-    @Update("UPDATE CREDENTIALS SET url = #{url}, username = #{username}, password = #{password} WHERE credentialid = #{credentialid}")
+    @Update("UPDATE CREDENTIALS SET url = #{url}, username = #{username}, password = #{password} WHERE credentialId = #{credentialId}")
     int updateCredential(Credential credential);
 
     @Select("SELECT * FROM CREDENTIALS ")
