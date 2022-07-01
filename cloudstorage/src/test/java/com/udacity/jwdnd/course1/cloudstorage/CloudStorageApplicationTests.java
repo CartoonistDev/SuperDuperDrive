@@ -3,7 +3,6 @@ package com.udacity.jwdnd.course1.cloudstorage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -119,6 +118,13 @@ class CloudStorageApplicationTests {
 
 	}
 
+	//A little time for the test server to wait to enable it work better and not congest the server
+	public void waitTime(String id){
+		WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id(id)));
+
+	}
+
 	/**
 	 * PLEASE DO NOT DELETE THIS TEST. You may modify this test to work with the 
 	 * rest of your code. 
@@ -219,45 +225,43 @@ class CloudStorageApplicationTests {
 
 	@Test
 	public void testForNoteCreationViewingEditingAndDeletion(){
+
+		String noteTitle = "Note Title";
+		String noteDescription = "Note Description";
+		String updateNoteDescription = "Note Description 2";
+		String updateNoteTitle = "Note Title 2";
+
 		doMockSignUp("IronMan", "Thanos", "Dr.Strange", "multiVerse");
 		doLogIn("Dr.Strange", "multiVerse");
 		driver.get("http://localhost:" + this.port + "/home");
 
-		Home note = new Home(driver);
+		Note note = new Note(driver);
 		Home home = new Home(driver);
 
+		waitTime("nav-notes-tab");
+		note.openNoteTab();
 
-		//A little time for the test server to mwait to enable it work better and not congest the server
-		WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+		waitTime("note-add-btn");
+		note.clickNoteAddBtn();
 
-		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
-		WebElement navNotesTab = driver.findElement(By.id("nav-notes-tab"));
-		navNotesTab.click();
+		waitTime("note-title");
+		note.addNoteTitle();
+		note.addNoteTitle.sendKeys(noteTitle);
 
-		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("note-add-btn")));
-		WebElement navNotes = driver.findElement(By.id("note-add-btn"));
-		navNotes.click();
+		waitTime("note-description");
+		note.addNoteDescription();
+		note.addNoteDescription.sendKeys(noteDescription);
 
-
-		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("note-title")));
-		WebElement typeNoteTitle = driver.findElement(By.id("note-title"));
-		typeNoteTitle.click();
-		typeNoteTitle.sendKeys("Name");
-
-		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("note-description")));
-		WebElement typeNoteDes = driver.findElement(By.id("note-description"));
-		typeNoteDes.click();
-		typeNoteDes.sendKeys("Name@");
-
-		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-submit")));
-		WebElement submitBtn = driver.findElement(By.id("nav-notes-submit"));
-		submitBtn.click();
+		waitTime("nav-notes-submit");
+		note.clickNoteSubmitBtn();
 
 		driver.get("http://localhost:" + this.port + "/home");
 
-		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
-		WebElement navNotesTabs = driver.findElement(By.id("nav-notes-tab"));
-		navNotesTabs.click();
+		waitTime("nav-notes-tab");
+		note.openNoteTab();
+
+		Assertions.assertEquals(note.getNoteTitle(), noteTitle);
+		Assertions.assertEquals(note.getNoteDescription(), noteDescription);
 
 //		Assertions.assertTrue(typeNoteTitle.getAttribute("innerHTML").contains("Name"));
 //		Assertions.assertTrue(typeNoteDes.isDisplayed(), "Name@");
