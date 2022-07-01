@@ -325,7 +325,37 @@ class CloudStorageApplicationTests {
 		Credential credential = new Credential(driver);
 
 		//Add Credential and Confirm it displays
+		waitTime("nav-credentials-tab");
+		credential.openCredentialTab();
 
+		waitTime("addCredential");
+		credential.clickAddCredentialBtn();
+
+		waitTime("credential-url");
+		credential.addCredentialUrl();
+		credential.addCredentialUrl.sendKeys(url);
+
+		waitTime("credential-username");
+		credential.addCredentialUsername();
+		credential.addCredentialUsername.sendKeys(username);
+
+		waitTime("credential-password");
+		credential.addCredentialPassword();
+		credential.addCredentialPassword.sendKeys(password);
+
+		waitTime("credentialSubmit");
+		credential.clickSubmitCredentialBtn();
+
+		driver.get("http://localhost:" + this.port + "/home");
+
+		waitTime("nav-credentials-tab");
+		credential.openCredentialTab();
+
+		waitTime("nav-credentials-tab");
+
+		Assertions.assertEquals(credential.getCredentialUrl(), url);
+		Assertions.assertEquals(credential.getCredentialUsername(), username);
+		Assertions.assertEquals(credential.getCredentialPassword(), password);
 
 		//Update Credential and Confirm it displays
 		//Delete Credential and Confirm it does not display

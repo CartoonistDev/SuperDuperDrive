@@ -143,9 +143,9 @@
                                         <button id="credential-edit-btn" type="button" class="btn btn-success" th:onclick="showCredentialModal([[${credential.credentialId}]], [[${credential.url}]], [[${credential.username}]], [[${encryptionService.decryptValue(credential.password, credential.key)}]])">Edit</button>
                                         <a id="credential-del-btn" class="btn btn-danger" th:href="@{'/credential/' + ${credential.credentialId} + '/delete'}">Delete</a>
                                     </td>
-                                    <th scope="row"  th:text="${credential.url}" id="credentialurl"></th>
-                                    <td  th:text="${credential.username}" id="credentialusername"></td>
-                                    <td  th:text="${credential.password}" id="credentialpassword"></td>
+                                    <th id = "credentialUrls" scope="row"  th:text="${credential.url}"></th>
+                                    <td id = "credentialUsernames" th:text="${credential.username}"></td>
+                                    <td id = "credentialPasswords" th:text="${credential.password}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -175,12 +175,12 @@
                                                 <label for="note-title" class="col-form-label">Password</label>
                                                 <input type="text" name= "password" class="form-control" id="credential-password" maxlength="30" required>
                                             </div>
-                                            <button id="credentialSubmit" type="submit" class="d-none"></button>
+                                            <button type="submit" class="d-none"></button>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">Save changes</button>
+                                        <button id="credentialSubmit" type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">Save changes</button>
                                     </div>
                                 </div>
                             </div>
