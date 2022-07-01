@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/home")
+@RequestMapping
 public class HomeController {
 
     private final NoteService noteService;
@@ -26,7 +26,7 @@ public class HomeController {
     //@RequiredArgsConstructor creates the required constructor on the fly
 
 
-    @GetMapping
+    @GetMapping("/home")
     public String homePage(Model model, Authentication authentication){
         log.info("I AM HERE 1");
         authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -38,14 +38,14 @@ public class HomeController {
         model.addAttribute("uploadedFiles", fileUploadService.getUserFiles(userId));
         model.addAttribute("credentials", credentialService.getAllCredentials(userId));
         model.addAttribute("encryptionService", encryptionService);
-//        User user = userService.getUser(authentication.getName());
-//        model.addAttribute("userNotes", noteService.getUserNotes(user.getUserid()));
+
         return "home";
     }
 
     @PostMapping("/logout")
     public String handleLogout(Model model){
         model.addAttribute("isSuccessful", true);
+
         return "login";
     }
 }

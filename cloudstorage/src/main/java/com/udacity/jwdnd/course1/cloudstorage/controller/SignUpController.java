@@ -31,7 +31,7 @@ public class SignUpController {
             } else {
                 model.addAttribute("signupSuccess", true);
                 model.addAttribute("signupSuccess", "Please enter your details to login");
-                return "login";
+                return "redirect:login";
 
             }
         } else if (!userService.isUsernameAvailable(user)){

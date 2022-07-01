@@ -86,7 +86,7 @@ class CloudStorageApplicationTests {
 		// You may have to modify the element "success-msg" and the sign-up 
 		// success message below depening on the rest of your code.
 		*/
-		Assertions.assertTrue(driver.findElement(By.id("success-msg")).getText().contains("You successfully signed up!"));
+		Assertions.assertEquals("http://localhost:" + this.port + "/login", driver.getCurrentUrl());
 	}
 
 	
@@ -126,16 +126,14 @@ class CloudStorageApplicationTests {
 	 * your code to ensure that it meets certain rubric criteria. 
 	 * 
 	 * If this test is failing, please ensure that you are handling redirecting users 
-	 * back to the login page after a succesful sign up.
-	 * Read more about the requirement in the rubric: 
+	 * back to the login page after a successful sign-up.
+	 * Read more about the requirement in the rubric:
 	 * https://review.udacity.com/#!/rubrics/2724/view 
 	 */
 	@Test
 	public void testRedirection() {
 		// Create a test account
 		doMockSignUp("Redirection","Test","RT","123");
-		
-		// Check if we have been redirected to the log in page.
 		Assertions.assertEquals("http://localhost:" + this.port + "/login", driver.getCurrentUrl());
 	}
 
@@ -200,6 +198,68 @@ class CloudStorageApplicationTests {
 
 	}
 
+	@Test
+	public void testHomePageNotAccessibleToUnauthorizedUser(){
+		driver.get("http://localhost:" + this.port + "/home");
+		Assertions.assertEquals("Login", driver.getTitle());
+	}
+
+	@Test
+	public void testHomePageNotAccessibleAfterLogout(){
+		doMockSignUp("IronMan", "Thanos", "Dr.Strange", "multiVerse");
+		doLogIn("Dr.Strange", "multiVerse");
+		driver.get("http://localhost:" + this.port + "/home");
+		Assertions.assertEquals("Home", driver.getTitle());
+		Home home = new Home(driver);
+		home.logoutBtn();
+		Assertions.assertNotEquals("Home", driver.getTitle());
+		driver.get("http://localhost:" + this.port + "/home");
+		Assertions.assertEquals("Login", driver.getTitle());
+	}
+
+	@Test
+	public void testForNoteCreationViewingEditingAndDeletion(){
+		doMockSignUp("IronMan", "Thanos", "Dr.Strange", "multiVerse");
+		doLogIn("Dr.Strange", "multiVerse");
+		driver.get("http://localhost:" + this.port + "/home");
+
+		Home note = new Home(driver);
+		Home home = new Home(driver);
 
 
+		//A little time for the test server to mwait to enable it work better and not congest the server
+		WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
+		WebElement navNotesTab = driver.findElement(By.id("nav-notes-tab"));
+		navNotesTab.click();
+
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("note-add-btn")));
+		WebElement navNotes = driver.findElement(By.id("note-add-btn"));
+		navNotes.click();
+
+
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("note-title")));
+		WebElement typeNoteTitle = driver.findElement(By.id("note-title"));
+		typeNoteTitle.click();
+		typeNoteTitle.sendKeys("Name");
+
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("note-description")));
+		WebElement typeNoteDes = driver.findElement(By.id("note-description"));
+		typeNoteDes.click();
+		typeNoteDes.sendKeys("Name@");
+
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-submit")));
+		WebElement submitBtn = driver.findElement(By.id("nav-notes-submit"));
+		submitBtn.click();
+
+		driver.get("http://localhost:" + this.port + "/home");
+
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
+		WebElement navNotesTabs = driver.findElement(By.id("nav-notes-tab"));
+		navNotesTabs.click();
+
+//		Assertions.assertTrue(typeNoteTitle.getAttribute("innerHTML").contains("Name"));
+//		Assertions.assertTrue(typeNoteDes.isDisplayed(), "Name@");
+	}
 }

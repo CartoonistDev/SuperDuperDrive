@@ -31,15 +31,20 @@ public class FileController {
         Integer userId = user.getUserid();
         file.setUserId(userId);
 
-        if (userService.isUsernameAvailable(user))
+       // if (userService.isUsernameAvailable(user))
 
-        model.addAttribute("uploadedFiles", fileUploadService.getAllFiles());
-        model.addAttribute("isSuccessful", true);
-        model.addAttribute("successMessage", "File has been successfully uploaded!");
 
-        //Upload the file
-        this.fileUploadService.uploadFile(file, multipartFile);
-        model.addAttribute("uploadedFiles", fileUploadService.getAllFiles());
+        if (multipartFile.getSize() > 9999){
+            model.addAttribute("hasError", true);
+            model.addAttribute("errorMessage", "File size must be less than 1mb");
+        } else {
+            model.addAttribute("uploadedFiles", fileUploadService.getAllFiles());
+            model.addAttribute("isSuccessful", true);
+            model.addAttribute("successMessage", "File has been successfully uploaded!");
+            //Upload the file
+            this.fileUploadService.uploadFile(file, multipartFile);
+            model.addAttribute("uploadedFiles", fileUploadService.getAllFiles());
+        }
 
         return "result";
     }
