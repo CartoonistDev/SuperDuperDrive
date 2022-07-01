@@ -13,7 +13,7 @@ public class NoteService {
     private final NoteMapper noteMapper;
 
     public void createNote(Note note, Integer userId){
-        Note newNote = new Note(null, note.getNoteDescription(), note.getNoteId(), userId);
+        Note newNote = new Note(note.getNoteTitle(), note.getNoteDescription(), null, userId);
         noteMapper.addNote(newNote);
     }
 

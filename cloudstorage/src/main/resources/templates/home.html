@@ -140,12 +140,12 @@
                                 <tbody>
                                 <tr th:each="credential : ${credentials}">
                                     <td>
-                                        <button type="button" class="btn btn-success" th:onclick="showCredentialModal([[${credential.credentialId}]], [[${credential.url}]], [[${credential.username}]], [[${encryptionService.decryptValue(credential.password, credential.key)}]])">Edit</button>
-                                        <a class="btn btn-danger" th:href="@{'/credential/' + ${credential.credentialId} + '/delete'}">Delete</a>
+                                        <button id="credential-edit-btn" type="button" class="btn btn-success" th:onclick="showCredentialModal([[${credential.credentialId}]], [[${credential.url}]], [[${credential.username}]], [[${encryptionService.decryptValue(credential.password, credential.key)}]])">Edit</button>
+                                        <a id="credential-del-btn" class="btn btn-danger" th:href="@{'/credential/' + ${credential.credentialId} + '/delete'}">Delete</a>
                                     </td>
-                                    <th scope="row"  th:text="${credential.url}">Example Credential URL</th>
-                                    <td  th:text="${credential.username}">Example Credential Username</td>
-                                    <td  th:text="${credential.password}">Example Credential Password</td>
+                                    <th scope="row"  th:text="${credential.url}" id="credentialurl"></th>
+                                    <td  th:text="${credential.username}" id="credentialusername"></td>
+                                    <td  th:text="${credential.password}" id="credentialpassword"></td>
                                 </tr>
                                 </tbody>
                             </table>

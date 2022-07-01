@@ -3,6 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import java.io.File;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CloudStorageApplicationTests {
 
@@ -236,13 +238,13 @@ class CloudStorageApplicationTests {
 		driver.get("http://localhost:" + this.port + "/home");
 
 		Note note = new Note(driver);
-		Home home = new Home(driver);
 
+		//Add Note and Confirm it displays
 		waitTime("nav-notes-tab");
 		note.openNoteTab();
 
 		waitTime("note-add-btn");
-		note.clickNoteAddBtn();
+		note.clickAddNoteBtn();
 
 		waitTime("note-title");
 		note.addNoteTitle();
@@ -253,7 +255,7 @@ class CloudStorageApplicationTests {
 		note.addNoteDescription.sendKeys(noteDescription);
 
 		waitTime("nav-notes-submit");
-		note.clickNoteSubmitBtn();
+		note.clickSubmitNoteBtn();
 
 		driver.get("http://localhost:" + this.port + "/home");
 
@@ -263,7 +265,69 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals(note.getNoteTitle(), noteTitle);
 		Assertions.assertEquals(note.getNoteDescription(), noteDescription);
 
-//		Assertions.assertTrue(typeNoteTitle.getAttribute("innerHTML").contains("Name"));
-//		Assertions.assertTrue(typeNoteDes.isDisplayed(), "Name@");
+		//Edit Note and Confirm it displays
+		waitTime("nav-notes-tab");
+		note.openNoteTab();
+
+		waitTime("note-add-btn");
+		note.clickEditNoteBtn();
+
+		waitTime("note-title");
+		note.addNoteTitle();
+		note.addNoteTitle.sendKeys(updateNoteTitle);
+
+		waitTime("note-description");
+		note.addNoteDescription();
+		note.addNoteDescription.sendKeys(updateNoteDescription);
+
+		waitTime("nav-notes-submit");
+		note.clickSubmitNoteBtn();
+
+		driver.get("http://localhost:" + this.port + "/home");
+
+		waitTime("nav-notes-tab");
+		note.openNoteTab();
+
+		Assertions.assertEquals(note.getNoteTitle(), noteTitle);
+		Assertions.assertEquals(note.getNoteDescription(), noteDescription);
+
+		//Delete Note
+		waitTime("nav-notes-tab");
+		note.openNoteTab();
+
+		waitTime("note-add-btn");
+		note.clickNoteDeleteBtn();
+
+		driver.get("http://localhost:" + this.port + "/home");
+
+		waitTime("nav-notes-tab");
+		note.openNoteTab();
+
+		Assertions.assertThrows(NoSuchElementException.class, () -> {
+			Assertions.assertEquals(note.getNoteTitle(), noteTitle);
+			Assertions.assertEquals(note.getNoteDescription(), noteDescription);
+		});
+	}
+
+	@Test
+	public void testForCredentialCreationViewingEditingAndDeletion(){
+		String url = "marvel.com";
+		String username = "Spider";
+		String password = "AuntyMay";
+		String updateUrl = "/no-way-home";
+		String updateUsername = "Man";
+		String updatePassword = " Returns";
+
+		doMockSignUp("IronMan", "Thanos", "Dr.Strange", "multiVerse");
+		doLogIn("Dr.Strange", "multiVerse");
+		driver.get("http://localhost:" + this.port + "/home");
+
+		Credential credential = new Credential(driver);
+
+		//Add Credential and Confirm it displays
+
+
+		//Update Credential and Confirm it displays
+		//Delete Credential and Confirm it does not display
 	}
 }

@@ -14,6 +14,9 @@ public class Note {
     @FindBy(id="nav-notes-tab")
     private WebElement clickNoteBtn;
 
+    @FindBy(id="note-edit-btn")
+    private WebElement clickEditNoteBtn;
+
     @FindBy(id="note-title")
     protected WebElement addNoteTitle;
     @FindBy(id="note-description")
@@ -25,14 +28,25 @@ public class Note {
     @FindBy(id = "notedescription")
     private WebElement noteDescriptionData;
 
+    @FindBy(id = "note-del-btn")
+    private WebElement noteDeleteBtn;
+
     public Note(WebDriver webDriver){
         PageFactory.initElements(webDriver, this);
     }
-    public void clickNoteAddBtn(){
+    public void clickAddNoteBtn(){
         clickNoteAddBtn.click();
     }
-    public void clickNoteSubmitBtn(){
+    public void clickSubmitNoteBtn(){
         clickNoteSubmitBtn.click();
+    }
+
+    public void clickNoteDeleteBtn(){
+        noteDeleteBtn.click();
+    }
+
+    public void clickEditNoteBtn(){
+        clickEditNoteBtn.click();
     }
     public void openNoteTab(){
         clickNoteBtn.click();
@@ -47,7 +61,6 @@ public class Note {
     public String getNoteTitle(){
         return noteTitleData.getAttribute("textContent");
     }
-
     public String getNoteDescription(){
         return noteDescriptionData.getAttribute("textContent");
     }
