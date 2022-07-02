@@ -23,6 +23,7 @@ public class HomeController {
     private final FileUploadService fileUploadService;
     private final EncryptionService encryptionService;
     private final CredentialService credentialService;
+
     //@RequiredArgsConstructor creates the required constructor on the fly
 
 
@@ -33,7 +34,9 @@ public class HomeController {
         String user = authentication.getName();
         log.info("I AM HERE 2");
         Integer userId = userService.getUserId(user);
+
         //Injecting all services so it will show in the home view
+
         model.addAttribute("userNotes", noteService.getUserNotes(userId));
         model.addAttribute("uploadedFiles", fileUploadService.getUserFiles(userId));
         model.addAttribute("credentials", credentialService.getAllCredentials(userId));

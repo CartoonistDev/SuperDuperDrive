@@ -233,7 +233,7 @@ class CloudStorageApplicationTests {
 		String updateNoteDescription = "Note Description 2";
 		String updateNoteTitle = "Note Title 2";
 
-		doMockSignUp("IronMan", "Thanos", "Dr.Strange", "multiVerse");
+		//doMockSignUp("IronMan", "Thanos", "Dr.Strange", "multiVerse");
 		doLogIn("Dr.Strange", "multiVerse");
 		driver.get("http://localhost:" + this.port + "/home");
 
@@ -318,7 +318,7 @@ class CloudStorageApplicationTests {
 		String updateUsername = "Man";
 		String updatePassword = " Returns";
 
-		doMockSignUp("IronMan", "Thanos", "Dr.Strange", "multiVerse");
+		//doMockSignUp("IronMan", "Thanos", "Dr.Strange", "multiVerse");
 		doLogIn("Dr.Strange", "multiVerse");
 		driver.get("http://localhost:" + this.port + "/home");
 
