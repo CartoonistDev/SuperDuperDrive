@@ -310,7 +310,7 @@ class CloudStorageApplicationTests {
 	}
 
 	@Test
-	public void testForCredentialCreationViewingEditingAndDeletion(){
+	public void testForCredentialCreationViewingEditingAndDeletion() {
 		String url = "marvel.com";
 		String username = "Spider";
 		String password = "AuntyMay";
@@ -355,9 +355,64 @@ class CloudStorageApplicationTests {
 
 		Assertions.assertEquals(credential.getCredentialUrl(), url);
 		Assertions.assertEquals(credential.getCredentialUsername(), username);
-		Assertions.assertEquals(credential.getCredentialPassword(), password);
+		Assertions.assertNotNull(credential.getCredentialPassword(), password);
 
 		//Update Credential and Confirm it displays
+
+		driver.get("http://localhost:" + this.port + "/home");
+
+		waitTime("nav-credentials-tab");
+		credential.openCredentialTab();
+
+		waitTime("credential-edit-btn");
+		credential.clickEditCredentialBtn();
+
+		waitTime("credential-url");
+		credential.addCredentialUrl();
+		credential.addCredentialUrl.clear();
+		credential.addCredentialUrl.sendKeys(updateUrl);
+
+		waitTime("credential-username");
+		credential.addCredentialUsername();
+		credential.addCredentialUsername.clear();
+		credential.addCredentialUsername.sendKeys(updateUsername);
+
+		waitTime("credential-password");
+		credential.addCredentialPassword();
+		credential.addCredentialPassword.clear();
+		credential.addCredentialPassword.sendKeys(updatePassword);
+
+		waitTime("credentialSubmit");
+		credential.clickSubmitCredentialBtn();
+
+		driver.get("http://localhost:" + this.port + "/home");
+
+		waitTime("nav-credentials-tab");
+		credential.openCredentialTab();
+
+		waitTime("nav-credentials-tab");
+
+		Assertions.assertEquals(credential.getCredentialUrl(), updateUrl);
+		Assertions.assertEquals(credential.getCredentialUsername(), updateUsername);
+		Assertions.assertNotNull(credential.getCredentialPassword(), updatePassword);
+
 		//Delete Credential and Confirm it does not display
+		waitTime("nav-credentials-tab");
+		credential.openCredentialTab();
+
+		waitTime("credential-del-btn");
+		credential.clickCredentialDeleteBtn();
+
+		driver.get("http://localhost:" + this.port + "/home");
+
+		waitTime("nav-credentials-tab");
+		credential.openCredentialTab();
+
+		Assertions.assertThrows(NoSuchElementException.class, () -> {
+			Assertions.assertEquals(credential.getCredentialUrl(), updateUrl);
+			Assertions.assertEquals(credential.getCredentialUsername(), updateUsername);
+			Assertions.assertEquals(credential.getCredentialPassword(), updatePassword);
+		});
+
 	}
 }
